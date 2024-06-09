@@ -15,6 +15,7 @@ import com.example.myapplication.data.remote.ApiService
 import com.example.myapplication.data.remote.instanceApi
 import com.example.myapplication.databinding.ActivityImageListBinding
 import com.example.myapplication.model.APIResponse
+import com.example.myapplication.model.PostModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,10 +38,29 @@ class ImageListActivity : AppCompatActivity() {
 
         binding.mainRecycler.addItemDecoration(MarginItemDecoration(10))
         callAPI()
+        postDataAPI()
 
         binding.mainRecycler.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             // check scroll & call API with next page & update adapter
         }
+    }
+
+    private fun postDataAPI() {
+        apiService = instanceApi.client?.create(ApiService::class.java)
+        val model = PostModel()
+        model.question = "question"
+        model.answer = "answer"
+        response = apiService?.postData("user_id", model)
+        response?.enqueue(object : Callback<APIResponse>{
+            override fun onResponse(call: Call<APIResponse>, response: Response<APIResponse>) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onFailure(call: Call<APIResponse>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 
     private fun callAPI() {
